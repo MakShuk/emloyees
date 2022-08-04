@@ -13,13 +13,12 @@ class App extends Component {
     super(props);
     this.state = {
       data: [
-        { name: 'Maks', salary: 800, increase: false, id: 1 },
-        { name: 'Ania', salary: 200, increase: false, id: 2 },
-        { name: 'Den', salary: 1800, increase: false, id: 3 },
+        { name: 'Maks', salary: 800, increase: false, like:false, id: 1 },
+        { name: 'Ania', salary: 200, increase: true, like:true, id: 2 },
+        { name: 'Den', salary: 1800, increase: false, like:false, id: 3 },
       ],
     };
     this.maxId = 4;
-    this.addItem = this.addItem.bind(this);
   }
 
   deleteItem = (id) => {
@@ -30,22 +29,28 @@ class App extends Component {
     });
   };
 
-  addItem(name, salary){
-       const newItem = {
-         name,
-         salary,
-         increase: false,
-         rise: false,
-         id: this.maxId++,
-       };
-       this.setState(({ data }) => {
-         const newArr = [...data, newItem];
-         return {
-           data: newArr,
-         };
-       });
+  addItem(name, salary) {
+    const newItem = {
+      name,
+      salary,
+      increase: false,
+      like:false,
+      id: this.maxId++,
+    };
+    this.setState(({ data }) => {
+      const newArr = [...data, newItem];
+      return {
+        data: newArr,
+      };
+    });
+  }
+
+  onToggleIncrease = (id) => {
+    console.log(`Increase this ${id}`);
   };
-  
+  onToggleRise = (id) => {
+    console.log(`Rise this ${id}`);
+  };
 
   render() {
     return (
@@ -55,9 +60,14 @@ class App extends Component {
           <SearchPanel />
           <AppFilter />
         </div>
-        <EmployeesList data={this.state.data} onDelete={this.deleteItem} />
+        <EmployeesList
+          data={this.state.data}
+          onDelete={this.deleteItem}
+          onToggleIncrease={this.onToggleIncrease}
+          onToggleRise={this.onToggleRise}
+        />
         <EmployeesAddForm
-         onAdd={this.addItem}
+          onAdd={(name, salary) => this.addItem(name, salary)}
         />
       </div>
     );
