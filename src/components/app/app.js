@@ -13,10 +13,11 @@ class App extends Component {
     super(props);
     this.state = {
       data: [
-        { name: 'Maks', salary: 800, increase: false, like:false, id: 1 },
-        { name: 'Ania', salary: 200, increase: true, like:true, id: 2 },
-        { name: 'Den', salary: 1800, increase: false, like:false, id: 3 },
+        { name: 'Maks', salary: 800, increase: false, like: false, id: 1 },
+        { name: 'Ania', salary: 200, increase: true, like: true, id: 2 },
+        { name: 'Den', salary: 1800, increase: false, like: false, id: 3 },
       ],
+      
     };
     this.maxId = 4;
   }
@@ -34,7 +35,7 @@ class App extends Component {
       name,
       salary,
       increase: false,
-      like:false,
+      like: false,
       id: this.maxId++,
     };
     this.setState(({ data }) => {
@@ -46,16 +47,33 @@ class App extends Component {
   }
 
   onToggleIncrease = (id) => {
-    console.log(`Increase this ${id}`);
+    this.setState(({ data }) => ({
+      data: data.map((item) => {
+        if (item.id === id) {
+          return { ...item, increase: !item.increase };
+        } else {
+          return item;
+        }
+      }),
+    }));
   };
+
   onToggleRise = (id) => {
-    console.log(`Rise this ${id}`);
+      this.setState(({ data }) => ({
+        data: data.map((item) => {
+          if (item.id === id) {
+            return { ...item, like: !item.like };
+          } else {
+            return item;
+          }
+        }),
+      }));
   };
 
   render() {
     return (
       <div className="app">
-        <AppInfo />
+        <AppInfo data={this.state.data} />
         <div className="search-panel">
           <SearchPanel />
           <AppFilter />
