@@ -30,7 +30,7 @@ class App extends Component {
     });
   };
 
-  addItem(name, salary) {
+  addItem = (name, salary) => {
     const newItem = {
       name,
       salary,
@@ -62,23 +62,23 @@ class App extends Component {
     if (items.length === 0) {
       return items;
     }
-    return items.filter(item => {
+    return items.filter((item) => {
       return item.name.indexOf(term) > -1;
-    })
+    });
   };
 
-  onUpdateSaerch(term){
-  this.setState({term})
+  onUpdateSaerch =(term)=> {
+    this.setState({ term });
   }
 
   render() {
     const { data, term } = this.state;
-    const visibleDate = this.searchEmp(data, term)
+    const visibleDate = this.searchEmp(data, term);
     return (
       <div className="app">
         <AppInfo data={data} />
         <div className="search-panel">
-          <SearchPanel />
+          <SearchPanel onUpdateSaerch={this.onUpdateSaerch} />
           <AppFilter />
         </div>
         <EmployeesList
@@ -87,7 +87,7 @@ class App extends Component {
           onToggleProp={this.onToggleProp}
         />
         <EmployeesAddForm
-          onAdd={(name, salary) => this.addItem(name, salary)}
+          onAdd={this.addItem}
         />
       </div>
     );

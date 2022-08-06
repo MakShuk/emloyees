@@ -17,7 +17,7 @@ class EmployeesAddForm extends Component {
     });
   };
 
-  onSubmit(e) {
+  onSubmit = (e) => {
     e.preventDefault();
     if (this.state.name.length < 3 || !this.state.salary) return;
      this.props.onAdd(this.state.name, this.state.salary);
@@ -32,7 +32,7 @@ class EmployeesAddForm extends Component {
     return (
       <div className="app-add-form">
         <h3>Добавьте нового сотрудника</h3>
-        <form className="add-form d-flex" onSubmit={(e)=> this.onSubmit(e)}>
+        <form className="add-form d-flex" onSubmit={this.onSubmit}>
           <input
             type="text"
             className="form-control new-post-label"
