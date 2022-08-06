@@ -18,6 +18,7 @@ class App extends Component {
         { name: 'Den', salary: 1800, increase: false, like: false, id: 3 },
       ],
       term: '',
+      selectFilter: 'all',
     };
     this.maxId = 4;
   }
@@ -44,7 +45,7 @@ class App extends Component {
         data: newArr,
       };
     });
-  }
+  };
 
   onToggleProp = (id, prop) => {
     this.setState(({ data }) => ({
@@ -67,28 +68,46 @@ class App extends Component {
     });
   };
 
-  onUpdateSaerch =(term)=> {
+  onUpdateSaerch = (term) => {
     this.setState({ term });
+  };
+
+  filterEmp = (items, selectFilter) => {
+    switch (selectFilter) {
+      case 'payIncrease':
+        return items.filter((item) => {
+          return item.like;
+        });
+      case 'oneThousand':
+        return items.filter((item) => {
+          return item.salary > 1000
+        });
+      default:
+        return items;
+    };
   }
 
+  onUpdateFilter = (selectFilter) => {
+    this.setState({ selectFilter });
+  };
+
   render() {
-    const { data, term } = this.state;
+    const { data, term, selectFilter } = this.state;
     const visibleDate = this.searchEmp(data, term);
+    const filterDate = this.filterEmp(visibleDate, selectFilter);
     return (
       <div className="app">
         <AppInfo data={data} />
         <div className="search-panel">
           <SearchPanel onUpdateSaerch={this.onUpdateSaerch} />
-          <AppFilter />
+          <AppFilter onUpdateFilter={this.onUpdateFilter} />
         </div>
         <EmployeesList
-          data={visibleDate}
+          data={filterDate}
           onDelete={this.deleteItem}
           onToggleProp={this.onToggleProp}
         />
-        <EmployeesAddForm
-          onAdd={this.addItem}
-        />
+        <EmployeesAddForm onAdd={this.addItem} />
       </div>
     );
   }
