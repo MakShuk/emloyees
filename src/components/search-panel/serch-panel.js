@@ -10,7 +10,7 @@ class SearchPanel extends Component {
       tern:""
     }
   }
-  return() {
+  render() {
     return (
       <input
         type="text"
