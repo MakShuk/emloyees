@@ -18,7 +18,7 @@ class App extends Component {
         { name: 'Den', salary: 1800, increase: false, like: false, id: 3 },
       ],
       term: '',
-      selectFilter: 'all',
+      filter: 'all',
     };
     this.maxId = 4;
   }
@@ -78,34 +78,48 @@ class App extends Component {
         return items.filter((item) => {
           return item.like;
         });
-      case 'oneThousand':
+      case 'moreThen1000':
         return items.filter((item) => {
-          return item.salary > 1000
+          return item.salary > 1000;
         });
       default:
         return items;
-    };
-  }
+    }
+  };
 
-  onUpdateFilter = (selectFilter) => {
-    this.setState({ selectFilter });
+  onUpdateFilter = (filter) => {
+    this.setState({ filter });
+  };
+
+  onUpdateSalary = (id, newSalary) => {
+    
+    this.setState(({ data }) => ({
+      data: data.map((item) => {
+        if (item.id === id) {
+          return { ...item, salary: +newSalary.replace(/[^0-9]/g, '') };
+        } else {
+          return item;
+        }
+      }),
+    }));
+    console.log(this.state.data);
   };
 
   render() {
-    const { data, term, selectFilter } = this.state;
-    const visibleDate = this.searchEmp(data, term);
-    const filterDate = this.filterEmp(visibleDate, selectFilter);
+    const { data, term, filter } = this.state;
+    const visibleDate = this.filterEmp(this.searchEmp(data, term), filter);
     return (
       <div className="app">
         <AppInfo data={data} />
         <div className="search-panel">
           <SearchPanel onUpdateSaerch={this.onUpdateSaerch} />
-          <AppFilter onUpdateFilter={this.onUpdateFilter} />
+          <AppFilter onUpdateFilter={this.onUpdateFilter} filter={filter} />
         </div>
         <EmployeesList
-          data={filterDate}
+          data={visibleDate}
           onDelete={this.deleteItem}
           onToggleProp={this.onToggleProp}
+          onUpdateSalary={this.onUpdateSalary}
         />
         <EmployeesAddForm onAdd={this.addItem} />
       </div>

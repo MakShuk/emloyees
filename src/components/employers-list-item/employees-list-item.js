@@ -8,7 +8,13 @@ const EmployeesListItem = (props) => {
     onToggleProp,
     increase,
     like,
+    onUpdateSalary,
   } = props;
+
+// const onUpdateFilterEl = (e) => {
+//   console.log(e.target.value);
+//   console.log();
+//  }
   
   return (
     <li
@@ -28,6 +34,7 @@ const EmployeesListItem = (props) => {
         type="text"
         className="list-group-item-input"
         defaultValue={salary + ' $'}
+        onChange={onUpdateSalary}
       />
       <div className="d-flex justify-content-center align-items-center">
         <button
